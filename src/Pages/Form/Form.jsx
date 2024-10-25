@@ -7,7 +7,7 @@ function Form() {
   useEffect(() => {
     // Fetch data from Strapi
     axios
-      .get('http://localhost:1337/api/articles') // replace 'articles' with your content type
+      .get('https://favorable-ants-b98d6823dd.strapiapp.com/api/articles') // replace 'articles' with your content type
       .then((response) => {
         setData(response.data.data); // Adjust depending on Strapi response
       })
@@ -15,38 +15,23 @@ function Form() {
         console.error('Error fetching data:', error);
       });
 
-
-    axios.post('http://localhost:1337/api/auth/local', {
-      identifier: 'your-username',
-      password: 'your-password',
-    })
-      .then(response => {
-        console.log('User profile', response.data.user);
-        console.log('User token', response.data.jwt);
-
-        // Use the JWT token in future requests
-        const token = response.data.jwt;
-        axios.get('http://localhost:1337/api/articles', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }).then(response => {
-          console.log(response.data);
-        });
-      })
-      .catch(error => {
-        console.error('Error logging in:', error);
-      });
   }, []);
 
-console.log("data:", data);
-
+  console.log("data:", data);
 
   return (
     <>
       <section data-bs-version="5.1" className="header1 cid-tJS9vXDdRK" id="header01-7">
         <div className="container">
           <h1>Form</h1>
+          <ul>
+            {data.map((item) => (
+              <li key={item.id}>
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+              </li> // Customize according to the content structure
+            ))}
+          </ul>
         </div>
       </section>
     </>

@@ -10,39 +10,16 @@ function Home() {
   useEffect(() => {
     // Fetch data from Strapi
     axios
-      .get('http://localhost:1337/api/articles') // replace 'articles' with your content type
+      .get('https://favorable-ants-b98d6823dd.strapiapp.com/api/articles') // replace 'articles' with your content type
       .then((response) => {
         setData(response.data.data); // Adjust depending on Strapi response
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-
-
-    axios.post('http://localhost:1337/api/auth/local', {
-      identifier: 'your-username',
-      password: 'your-password',
-    })
-      .then(response => {
-        console.log('User profile', response.data.user);
-        console.log('User token', response.data.jwt);
-
-        // Use the JWT token in future requests
-        const token = response.data.jwt;
-        axios.get('http://localhost:1337/api/articles', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }).then(response => {
-          console.log(response.data);
-        });
-      })
-      .catch(error => {
-        console.error('Error logging in:', error);
-      });
   }, []);
 
-console.log("data:", data);
+  console.log("data:", data);
 
 
   return (
@@ -56,7 +33,6 @@ console.log("data:", data);
             </div>
             <div className="col-12 col-lg col-md-12">
               <div className="text-wrapper align-left">
-                <h1 className="mbr-section-title mbr-fonts-style mb-4 display-2"><strong>Data from Strapi</strong></h1>
                 <ul>
                   {data.map((item) => (
                     <li key={item.id}>
